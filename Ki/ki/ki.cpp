@@ -31,35 +31,35 @@ namespace ki
         Arguments arguments;
         
         // index should be at KI_PARAM_BEGIN
-        auto instruction = script.instructions[index];
-        if( instruction.code != KI_PARAM_BEGIN )
+        auto token = script.tokens[index];
+        if( token.code != KI_PARAM_BEGIN )
         {
             return arguments;
         }
         
-        for( ++index ; index < script.instructions.size() ; ++index )
+        for( ++index ; index < script.tokens.size() ; ++index )
         {
             Argument arg;
-            instruction = script.instructions[index];
-            switch (instruction.code) {
+            token = script.tokens[index];
+            switch (token.code) {
                 case KI_STRING:
                 {
                     arg.type = KI_STRING;
-                    arg.string = script.strings[instruction.index];
+                    arg.string = script.strings[token.index];
                     arguments.push_back( arg );
                     break;
                 }
                 case KI_NUMBER:
                 {
                     arg.type = KI_NUMBER;
-                    arg.number = script.numbers[instruction.index];
+                    arg.number = script.numbers[token.index];
                     arguments.push_back( arg );
                     break;
                 }
                 case KI_BOOL:
                 {
                     arg.type = KI_BOOL;
-                    arg.boolean = script.booleans[instruction.index];
+                    arg.boolean = script.booleans[token.index];
                     arguments.push_back( arg );
                     break;
                 }
@@ -74,11 +74,11 @@ namespace ki
     void Context::execute( const Script& script )
     {
         // do whatever the script tells...
-        for(size_t index = 0 ; index < script.instructions.size() ; ++index)
+        for(size_t index = 0 ; index < script.tokens.size() ; ++index)
         {
-            auto instruction = script.instructions[index];
+            auto token = script.tokens[index];
             
-            auto iter = custom.find(instruction.code);
+            auto iter = custom.find(token.code);
             
             if( iter != custom.end() )
             {
@@ -86,8 +86,8 @@ namespace ki
                 Arguments arguments = ki::readArguments(script , index);
                 iter->second->operator()(arguments);
                 
-                auto instruction = script.instructions[index];
-                if( instruction.code == KI_END )
+                auto token = script.tokens[index];
+                if( token.code == KI_END )
                 {
                     ++index;
                 }
@@ -95,13 +95,13 @@ namespace ki
                 continue;
             }
             
-            switch (instruction.code) {
+            switch (token.code) {
                 case KI_STRING :
                 case KI_FRAGMENT :
-                    std::cout << ::ki::toString(instruction.code) << ": " << script.strings[instruction.index] << std::endl;
+                    std::cout << ::ki::toString(token.code) << ": " << script.strings[token.index] << std::endl;
                     break;
                 default:
-                    std::cout << ::ki::toString(instruction.code) << std::endl;
+                    std::cout << ::ki::toString(token.code) << std::endl;
                     break;
             }
         }

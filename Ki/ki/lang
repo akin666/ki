@@ -86,11 +86,11 @@ namespace ki
         KI_USERTYPES,   // parser interprets everything into a integer.. after this integer, all numbers are free o use.
 	};
 		
-	struct Entry {
+	struct Token {
 		Type code;
 		long index;
 	};
-	using Instructions = std::vector<Entry>;
+	using Tokens = std::vector<Token>;
     
     using TypeMap = std::unordered_map<size_t, std::unordered_map<std::string, Type>>;
     
@@ -101,7 +101,7 @@ namespace ki
         NumberArray numbers;
         BoolArray booleans;
         
-        Instructions instructions;
+        Tokens tokens;
     };
     
     Type recognize( const char *cstr , size_t length );

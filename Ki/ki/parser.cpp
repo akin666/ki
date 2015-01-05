@@ -83,8 +83,8 @@ namespace ki
                 return script;
             }
             
-            Entry entry;
-            Entry entry2;
+            Token token;
+            Token token2;
             size_t at = 0;
             size_t index = 0;
             size_t total = 0;
@@ -94,8 +94,8 @@ namespace ki
             while( at < max )
             {
                 auto key = carray[at];
-                entry.index = 0;
-                entry2.index = 0;
+                token.index = 0;
+                token2.index = 0;
                 
                 left = max - at;
                 len = 1;
@@ -104,35 +104,35 @@ namespace ki
                 switch( key )
                 {
                     // 1 letter reserved keys
-                    case '{' : entry.code = KI_BLOCK_BEGIN; break;
-                    case '}' : entry.code = KI_BLOCK_END;   break;
-                    case '(' : entry.code = KI_PARAM_BEGIN; break;
-                    case ')' : entry.code = KI_PARAM_END;   break;
-                    case ';' : entry.code = KI_END;         break;
+                    case '{' : token.code = KI_BLOCK_BEGIN; break;
+                    case '}' : token.code = KI_BLOCK_END;   break;
+                    case '(' : token.code = KI_PARAM_BEGIN; break;
+                    case ')' : token.code = KI_PARAM_END;   break;
+                    case ';' : token.code = KI_END;         break;
                         
-                    case '[' : entry.code = KI_ENTITY_BEGIN;break;
-                    case ']' : entry.code = KI_ENTITY_END;  break;
+                    case '[' : token.code = KI_ENTITY_BEGIN;break;
+                    case ']' : token.code = KI_ENTITY_END;  break;
                         
-                    case '=' : entry.code = KI_ASSIGN;      break;
-                    case ':' : entry.code = KI_ASSIGN;      break;
-                    case '+' : entry.code = KI_ADD;         break;
-                    case '-' : entry.code = KI_SUBTRACT;    break;
-                    case '/' : entry.code = KI_DIVIDE;      break;
-                    case '*' : entry.code = KI_MULTIPLY;    break;
-                    case '%' : entry.code = KI_MODULO;      break;
+                    case '=' : token.code = KI_ASSIGN;      break;
+                    case ':' : token.code = KI_ASSIGN;      break;
+                    case '+' : token.code = KI_ADD;         break;
+                    case '-' : token.code = KI_SUBTRACT;    break;
+                    case '/' : token.code = KI_DIVIDE;      break;
+                    case '*' : token.code = KI_MULTIPLY;    break;
+                    case '%' : token.code = KI_MODULO;      break;
                         
-                    case '!' : entry.code = KI_NOT;         break;
-                    case '|' : entry.code = KI_BAND;        break;
-                    case '&' : entry.code = KI_BOR;         break;
-                    case '\\': entry.code = KI_SPECIAL;     break;
+                    case '!' : token.code = KI_NOT;         break;
+                    case '|' : token.code = KI_BAND;        break;
+                    case '&' : token.code = KI_BOR;         break;
+                    case '\\': token.code = KI_SPECIAL;     break;
                         
                     // string
                     case '"' :
                     case '\'' :
                     {
                         len = seekString(carray, max, at) + 2;
-                        entry.code = KI_STRING;
-                        entry.index = script.strings.size();
+                        token.code = KI_STRING;
+                        token.index = script.strings.size();
                         script.strings.push_back(String(carray + at + 1 , len - 2));
                         // we increment later on with 1, so at is off by 1
                         at += len - 1;
@@ -147,39 +147,39 @@ namespace ki
                     case '\r':
                     {
                         len = seekWhitespace(carray, max, at);
-                        entry.code = KI_WHITESPACE;
+                        token.code = KI_WHITESPACE;
                         // we increment later on with 1, so at is off by 1
                         at += len - 1;
                         break;
                     }
-                    default  : entry.code = KI_UNKNOWN;     break;
+                    default  : token.code = KI_UNKNOWN;     break;
                 }
-                if( entry.code != KI_UNKNOWN )
+                if( token.code != KI_UNKNOWN )
                 {
                     ++at;
                 }
                 
                 // is it possibly a preprocessor command
-                if( entry.code == KI_DIVIDE )
+                if( token.code == KI_DIVIDE )
                 {
                     // TODO
                     // comment blocks etc.
                 }
                 // is it possibly a special command
-                if( entry.code == KI_SPECIAL )
+                if( token.code == KI_SPECIAL )
                 {
                     // TODO
                     // whatever you do with '\\'
                 }
                 
                 // the key was consumed
-                if( entry.code != KI_UNKNOWN )
+                if( token.code != KI_UNKNOWN )
                 {
                     // 2 letter combinations?
                     if( left > 1 )
                     {
                         auto key = carray[at];
-                        switch ( entry.code )
+                        switch ( token.code )
                         {
                             // ==
                             case KI_ASSIGN :
@@ -187,7 +187,7 @@ namespace ki
                                 if( key == '=' )
                                 {
                                     len = 2;
-                                    entry.code = KI_EQUALS;
+                                    token.code = KI_EQUALS;
                                     ++at;
                                 }
                                 break;
@@ -198,7 +198,7 @@ namespace ki
                                 if( key == '=' )
                                 {
                                     len = 2;
-                                    entry.code = KI_NOT_EQUALS;
+                                    token.code = KI_NOT_EQUALS;
                                     ++at;
                                 }
                                 break;
@@ -209,7 +209,7 @@ namespace ki
                                 if( key == '|' )
                                 {
                                     len = 2;
-                                    entry.code = KI_OR;
+                                    token.code = KI_OR;
                                     ++at;
                                 }
                                 break;
@@ -220,7 +220,7 @@ namespace ki
                                 if( key == '&' )
                                 {
                                     len = 2;
-                                    entry.code = KI_AND;
+                                    token.code = KI_AND;
                                     ++at;
                                 }
                                 break;
@@ -231,7 +231,7 @@ namespace ki
                 }
                 
                 // not recognized yet.. must be 'unknown'
-                if( entry.code == KI_UNKNOWN )
+                if( token.code == KI_UNKNOWN )
                 {
                     ++at;
                     continue;
@@ -242,26 +242,26 @@ namespace ki
                 size_t remains = total - len;
                 if( remains > 0 )
                 {
-                    entry2.code = recognize( (carray + index) , remains , types );
+                    token2.code = recognize( (carray + index) , remains , types );
                     
                     // not recognized..
-                    if( entry2.code == KI_FRAGMENT )
+                    if( token2.code == KI_FRAGMENT )
                     {
-                        entry2.code = KI_FRAGMENT;
-                        entry2.index = script.strings.size();
+                        token2.code = KI_FRAGMENT;
+                        token2.index = script.strings.size();
                         script.strings.push_back( String( (carray + index) , remains ) );
                     }
                     
-                    script.instructions.push_back(entry2);
+                    script.tokens.push_back(token2);
                 }
                 
                 // Move the "unprocessed index"
                 index = at;
-                if( entry.code == KI_WHITESPACE )
+                if( token.code == KI_WHITESPACE )
                 {
                     continue;
                 }
-                script.instructions.push_back(entry);
+                script.tokens.push_back(token);
             }
             
             return script;
