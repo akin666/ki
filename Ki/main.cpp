@@ -16,7 +16,7 @@ public:
     {
     }
     
-    virtual void operator()( const ki::Arguments& args )
+    virtual void operator()( const ki::Parameters& args )
     {
         std::string catenated;
         

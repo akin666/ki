@@ -26,41 +26,41 @@ namespace ki
         execute( parser::parse( text , types ) );
 	}
     
-    Arguments readArguments( const Script& script , size_t& index )
+    Parameters readParameters( const Script& script , size_t& index )
     {
-        Arguments arguments;
+        Parameters parameters;
         
         // index should be at KI_PARAM_BEGIN
         auto token = script.tokens[index];
         if( token.code != KI_PARAM_BEGIN )
         {
-            return arguments;
+            return parameters;
         }
         
         for( ++index ; index < script.tokens.size() ; ++index )
         {
-            Argument arg;
+            Parameter parameter;
             token = script.tokens[index];
             switch (token.code) {
                 case KI_STRING:
                 {
-                    arg.type = KI_STRING;
-                    arg.string = script.strings[token.index];
-                    arguments.push_back( arg );
+                    parameter.type = KI_STRING;
+                    parameter.string = script.strings[token.index];
+                    parameters.push_back( parameter );
                     break;
                 }
                 case KI_NUMBER:
                 {
-                    arg.type = KI_NUMBER;
-                    arg.number = script.numbers[token.index];
-                    arguments.push_back( arg );
+                    parameter.type = KI_NUMBER;
+                    parameter.number = script.numbers[token.index];
+                    parameters.push_back( parameter );
                     break;
                 }
                 case KI_BOOL:
                 {
-                    arg.type = KI_BOOL;
-                    arg.boolean = script.booleans[token.index];
-                    arguments.push_back( arg );
+                    parameter.type = KI_BOOL;
+                    parameter.boolean = script.booleans[token.index];
+                    parameters.push_back( parameter );
                     break;
                 }
                 default:
@@ -68,7 +68,7 @@ namespace ki
             }
         }
         
-        return arguments;
+        return parameters;
     }
     
     void Context::execute( const Script& script )
@@ -83,8 +83,8 @@ namespace ki
             if( iter != custom.end() )
             {
                 ++index;
-                Arguments arguments = ki::readArguments(script , index);
-                iter->second->operator()(arguments);
+                Parameters parameters = ki::readParameters(script , index);
+                iter->second->operator()(parameters);
                 
                 auto token = script.tokens[index];
                 if( token.code == KI_END )

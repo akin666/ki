@@ -30,6 +30,7 @@ namespace ki
 		KI_NUMBER,		// number
 		KI_BOOL,		// bool
 		KI_NULL,		// null
+        KI_PARAMETERS,  // parameters
         
         KI_QUOTATION,   // ",',
 		
@@ -109,7 +110,7 @@ namespace ki
     
     std::string toString( Type type );
     
-    class Argument
+    class Parameter
     {
     public:
         Type type;
@@ -118,13 +119,13 @@ namespace ki
         Number number;
         bool boolean;
     };
-    using Arguments = std::vector<Argument>;
+    using Parameters = std::vector<Parameter>;
     
     class FuncInterface
     {
     public:
         virtual ~FuncInterface() {};
-        virtual void operator()( const Arguments& args ) {};
+        virtual void operator()( const Parameters& args ) {};
     };
 };
 
