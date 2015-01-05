@@ -9,8 +9,6 @@
 #include "parser"
 #include <iostream>
 
-const char *cstr = "\nprint('hello world');";
-
 namespace ki
 {
 	Context::Context()
@@ -25,7 +23,7 @@ namespace ki
 	
 	void Context::execute( const std::string& text )
 	{
-        execute( parser::parse( std::string( cstr ) , types ) );
+        execute( parser::parse( text , types ) );
 	}
     
     void Context::execute( const Script& script )

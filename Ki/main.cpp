@@ -37,11 +37,10 @@ public:
 int main(int argc, const char * argv[])
 {
     // insert code here...
-    std::cout << "Hello, World!\n";
     ki::Context context;
     
     context.set<Print>("print");
     
-    context.execute("");
+    context.execute("\nprint('hello world');");
     return 0;
 }
