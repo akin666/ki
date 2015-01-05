@@ -47,6 +47,12 @@ public:
     }
 };
 
+// print(text:"Hello world");
+// moveTo(x=140,y=200);
+// moveTo(x:140 y:200);
+// function moveTo( var x , var y );
+// function moveTo( var x[type:number] , var y[type:number] );
+
 int main(int argc, const char * argv[])
 {
     // insert code here...
