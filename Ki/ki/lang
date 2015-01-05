@@ -1,0 +1,125 @@
+/*
+ * kiparser
+ *
+ *  Created on: 21.10.2014
+ *      Author: akin
+ */
+
+#ifndef KI_LANG_HPP_
+#define KI_LANG_HPP_
+
+#include <vector>
+#include <string>
+#include <unordered_map>
+
+namespace ki
+{
+    using Number = float;
+	using String = std::string;
+	using StringArray = std::vector<String>;
+	using NumberArray = std::vector<Number>;
+	using BoolArray = std::vector<bool>;
+	
+	enum Type {
+        // Types
+        KI_FRAGMENT,    // unrecognized fragment
+        KI_UNKNOWN,     // internal unknown type, not part of KI language.
+        KI_WHITESPACE,  // Whitespace.
+        KI_NOP,         // NOP.
+		KI_STRING,		// string
+		KI_NUMBER,		// number
+		KI_BOOL,		// bool
+		KI_NULL,		// null
+        
+        KI_QUOTATION,   // ",',
+		
+		KI_LIBRARY,		// "library"
+		KI_VAR,			// "var"
+		KI_FUNCTION,	// "function"
+		KI_INFUNCTION,	// "&function" // inline function? takes all variables as references.
+		KI_CLASS,		// "class"
+		KI_TYPE,		// "type"
+		KI_SYSTEM,		// "system"
+        KI_BLOCK_BEGIN,	// "{" block
+        KI_BLOCK_END,	// "}" block
+		KI_PARAM_BEGIN,	// "("
+        KI_PARAM_END,	// ")"
+		KI_END,			// ";"
+		
+		KI_NAMESPACE,	// "namespace"
+		
+		KI_ENTITY_BEGIN,// "["
+		KI_ENTITY_END,	// "]"
+		
+		KI_NEW,			// "new"
+		KI_RELEASE,		// "release"
+		
+		KI_ASSIGN,		// "=",":"
+		KI_ADD,			// "+"
+		KI_SUBTRACT,	// "-"
+        KI_DIVIDE,		// "/"
+        KI_MULTIPLY,	// "*"
+        KI_MODULO,      // "%"
+		
+		KI_NOT,			// "!"
+		KI_EQUALS,		// "=="
+		KI_NOT_EQUALS,	// "!="
+		
+		KI_OR,			// "||"
+		KI_AND,			// "&&"
+		
+		KI_BOR,			// |
+        KI_BAND,		// &
+        
+        KI_SPECIAL,		// "\\"
+		
+		KI_RETURN,		// "return"
+		
+		KI_IF,			// "if"
+		KI_ELSE,		// "else"
+		KI_ELIF,		// "elif"
+		KI_WHILE,		// "while"
+		KI_FOR,			// "for"
+		KI_CONTINUE,	// "continue"
+		KI_BREAK,		// "break"
+        
+        KI_USERTYPES,   // parser interprets everything into a integer.. after this integer, all numbers are free o use.
+	};
+		
+	struct Entry {
+		Type code;
+		long index;
+	};
+	using Instructions = std::vector<Entry>;
+    
+    using TypeMap = std::unordered_map<size_t, std::unordered_map<std::string, Type>>;
+    
+    class Script
+    {
+    public:
+        StringArray strings;
+        NumberArray numbers;
+        BoolArray booleans;
+        
+        Instructions instructions;
+    };
+    
+    Type recognize( const char *cstr , size_t length );
+    Type recognize( const std::string& str );
+    
+    std::string toString( Type type );
+    
+    class FuncInterface
+    {
+    public:
+        virtual ~FuncInterface() {};
+        virtual void arg( size_t index , const std::string& text ) {};
+        virtual void arg( size_t index , bool state ) {};
+        virtual void arg( size_t index , Number number ) {};
+        
+        virtual void operator()() {};
+    };
+};
+
+#endif // guard end
+

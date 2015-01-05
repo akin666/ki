@@ -1,0 +1,25 @@
+/*
+ * kiparser
+ *
+ *  Created on: 21.10.2014
+ *      Author: akin
+ *
+ *  Parser is a dummy parser, that creates instructions stream from script text.
+ *  IT does not have any knowledge of things, outside the text provided to it.
+ */
+
+#ifndef KI_PARSER_HPP_
+#define KI_PARSER_HPP_
+
+#include "lang"
+
+namespace ki
+{
+	namespace parser
+	{
+		Script parse( const std::string& text, const TypeMap& types );
+	}
+};
+
+#endif // guard end
+

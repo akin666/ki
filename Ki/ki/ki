@@ -1,0 +1,42 @@
+/*
+ * kicore
+ *
+ *  Created on: 21.10.2014
+ *      Author: akin
+ */
+
+#ifndef KI_CORE_HPP_
+#define KI_CORE_HPP_
+
+#include <string>
+#include "lang"
+
+namespace ki
+{
+	class Context
+	{
+    private:
+        TypeMap types;
+        int usertypes;
+        
+        std::unordered_map<int , FuncInterface*> custom;
+	public:
+		Context();
+        
+        template <class Functor>
+        void set(std::string name)
+        {
+            Type type = (Type)++usertypes;
+            types[name.size()][name] = type;
+            
+            custom[type] = new Functor();
+        }
+        
+        Script parse( const std::string& text ) const;
+        
+        void execute( const std::string& text );
+        void execute( const Script& script );
+	};
+};
+
+#endif // KI_CORE_HPP_
