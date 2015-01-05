@@ -16,21 +16,34 @@ public:
     {
     }
     
-    virtual void arg( size_t index , const std::string& text )
+    virtual void operator()( const ki::Arguments& args )
     {
-    }
-    
-    virtual void arg( size_t index , bool state )
-    {
-    }
-    
-    virtual void arg( size_t index , ki::Number number )
-    {
-    }
-    
-    virtual void operator()()
-    {
-        std::cout << "PRINt called" << std::endl;
+        std::string catenated;
+        
+        for( auto& arg : args )
+        {
+            switch ( arg.type )
+            {
+                case ki::KI_STRING :
+                {
+                    catenated += arg.string;
+                    break;
+                }
+                case ki::KI_NUMBER :
+                {
+                    catenated += arg.number;
+                    break;
+                }
+                case ki::KI_BOOL :
+                {
+                    catenated += (arg.boolean ? "true" : "false");
+                    break;
+                }
+                default: break;
+            }
+        }
+        
+        std::cout << catenated << std::endl;
     }
 };
 

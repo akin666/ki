@@ -109,15 +109,22 @@ namespace ki
     
     std::string toString( Type type );
     
+    class Argument
+    {
+    public:
+        Type type;
+        
+        String string;
+        Number number;
+        bool boolean;
+    };
+    using Arguments = std::vector<Argument>;
+    
     class FuncInterface
     {
     public:
         virtual ~FuncInterface() {};
-        virtual void arg( size_t index , const std::string& text ) {};
-        virtual void arg( size_t index , bool state ) {};
-        virtual void arg( size_t index , Number number ) {};
-        
-        virtual void operator()() {};
+        virtual void operator()( const Arguments& args ) {};
     };
 };
 
