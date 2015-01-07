@@ -63,6 +63,10 @@ namespace ki
                     parameters.push_back( parameter );
                     break;
                 }
+                case KI_PARAM_END:
+                {
+                    return parameters;
+                }
                 default:
                     break;
             }
@@ -85,12 +89,6 @@ namespace ki
                 ++index;
                 Parameters parameters = ki::readParameters(script , index);
                 iter->second->operator()(parameters);
-                
-                auto token = script.tokens[index];
-                if( token.code == KI_END )
-                {
-                    ++index;
-                }
                 
                 continue;
             }

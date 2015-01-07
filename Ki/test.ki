@@ -1,7 +1,6 @@
 
 // print hello world :DD
-print('hello world
-');
+print('hello world');
 /*
  hellohh*/
 print('hello world');
