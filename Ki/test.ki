@@ -25,9 +25,9 @@ off(player.forward)
 I want to move the objects, easily, I want to get the specific object from the scene, and move it
 
 var ok = 1.0;
-[base, translation].where(base.Name == "pallo").all()
+[base, position].where(base.Name == "pallo").all()
 {
-    translation.move( ok , 0.0 , 0.0 );
+    position.move( ok , 0.0 , 0.0 );
 }
 
 /*
