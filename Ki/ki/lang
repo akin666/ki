@@ -15,8 +15,7 @@
 namespace ki
 {
     using Number = float;
-	using String = std::string;
-	using StringArray = std::vector<String>;
+	using StringArray = std::vector<std::string>;
 	using NumberArray = std::vector<Number>;
 	using BoolArray = std::vector<bool>;
 	
@@ -116,7 +115,7 @@ namespace ki
     public:
         Type type;
         
-        String string;
+        std::string string;
         Number number;
         bool boolean;
     };

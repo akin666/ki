@@ -182,7 +182,7 @@ namespace ki
                         consumed = seekString(carray, max, at) + 2;
                         token.code = KI_STRING;
                         token.index = script.strings.size();
-                        script.strings.push_back(String(carray + at + 1 , consumed - 2));
+                        script.strings.push_back(std::string(carray + at + 1 , consumed - 2));
                         // we increment later on with 1, so at is off by 1
                         at += consumed - 1;
                         break;
@@ -285,7 +285,7 @@ namespace ki
                     {
                         token2.code = KI_FRAGMENT;
                         token2.index = script.strings.size();
-                        script.strings.push_back( String( (carray + index) , remains ) );
+                        script.strings.push_back( std::string( (carray + index) , remains ) );
                     }
                     
                     script.tokens.push_back(token2);
