@@ -89,7 +89,7 @@ namespace ki
             size_t index = 0;
             size_t total = 0;
             size_t left = max;
-            size_t len = 0;
+            size_t consumed = 0;
             
             while( at < max )
             {
@@ -98,7 +98,7 @@ namespace ki
                 token2.index = 0;
                 
                 left = max - at;
-                len = 1;
+                consumed = 1;
                 
                 // any key glyphs..
                 switch( key )
@@ -117,7 +117,6 @@ namespace ki
                     case ':' : token.code = KI_ASSIGN;      break;
                     case '+' : token.code = KI_ADD;         break;
                     case '-' : token.code = KI_SUBTRACT;    break;
-                    case '/' : token.code = KI_DIVIDE;      break;
                     case '*' : token.code = KI_MULTIPLY;    break;
                     case '%' : token.code = KI_MODULO;      break;
                         
@@ -126,16 +125,64 @@ namespace ki
                     case '&' : token.code = KI_BOR;         break;
                     case '\\': token.code = KI_SPECIAL;     break;
                         
+                    case '/' :
+                    {
+                        // is it a comment.. or divide, or other someting special
+                        // lets assume, it is divide..
+                        token.code = KI_DIVIDE;
+                        if( left < 2 )
+                        {
+                            break;
+                        }
+                        
+                        size_t beginning = at;
+                        auto next = carray[at+1];
+                        // a /*
+                        if ( next == '*' )
+                        {
+                            // seek */
+                            at += 2;
+                            for(; at < max ; ++at)
+                            {
+                                if( ((at+1) < max) && (carray[at] == '*') && (carray[at+1] == '/') )
+                                {
+                                    ++at;
+                                    break;
+                                }
+                            }
+                            // lets count comments as whitespace..
+                            token.code = KI_WHITESPACE;
+                            consumed = (at + 1) - beginning;
+                        }
+                        // a //
+                        else if( next == '/')
+                        {
+                            // seek n (newline)
+                            at += 2;
+                            for(; at < max ; ++at)
+                            {
+                                if( carray[at] == '\n' )
+                                {
+                                    break;
+                                }
+                            }
+                            // lets count comments as whitespace..
+                            token.code = KI_WHITESPACE;
+                            consumed = (at + 1) - beginning;
+                        }
+                        break;
+                    }
+                        
                     // string
                     case '"' :
                     case '\'' :
                     {
-                        len = seekString(carray, max, at) + 2;
+                        consumed = seekString(carray, max, at) + 2;
                         token.code = KI_STRING;
                         token.index = script.strings.size();
-                        script.strings.push_back(String(carray + at + 1 , len - 2));
+                        script.strings.push_back(String(carray + at + 1 , consumed - 2));
                         // we increment later on with 1, so at is off by 1
-                        at += len - 1;
+                        at += consumed - 1;
                         break;
                     }
                     
@@ -146,10 +193,10 @@ namespace ki
                     case '\n':
                     case '\r':
                     {
-                        len = seekWhitespace(carray, max, at);
+                        consumed = seekWhitespace(carray, max, at);
                         token.code = KI_WHITESPACE;
                         // we increment later on with 1, so at is off by 1
-                        at += len - 1;
+                        at += consumed - 1;
                         break;
                     }
                     default  : token.code = KI_UNKNOWN;     break;
@@ -157,19 +204,6 @@ namespace ki
                 if( token.code != KI_UNKNOWN )
                 {
                     ++at;
-                }
-                
-                // is it possibly a preprocessor command
-                if( token.code == KI_DIVIDE )
-                {
-                    // TODO
-                    // comment blocks etc.
-                }
-                // is it possibly a special command
-                if( token.code == KI_SPECIAL )
-                {
-                    // TODO
-                    // whatever you do with '\\'
                 }
                 
                 // the key was consumed
@@ -186,7 +220,7 @@ namespace ki
                             {
                                 if( key == '=' )
                                 {
-                                    len = 2;
+                                    consumed = 2;
                                     token.code = KI_EQUALS;
                                     ++at;
                                 }
@@ -197,7 +231,7 @@ namespace ki
                             {
                                 if( key == '=' )
                                 {
-                                    len = 2;
+                                    consumed = 2;
                                     token.code = KI_NOT_EQUALS;
                                     ++at;
                                 }
@@ -208,7 +242,7 @@ namespace ki
                             {
                                 if( key == '|' )
                                 {
-                                    len = 2;
+                                    consumed = 2;
                                     token.code = KI_OR;
                                     ++at;
                                 }
@@ -219,7 +253,7 @@ namespace ki
                             {
                                 if( key == '&' )
                                 {
-                                    len = 2;
+                                    consumed = 2;
                                     token.code = KI_AND;
                                     ++at;
                                 }
@@ -239,7 +273,7 @@ namespace ki
                 
                 // recognized
                 total = at - index;
-                size_t remains = total - len;
+                size_t remains = total - consumed;
                 if( remains > 0 )
                 {
                     token2.code = recognize( (carray + index) , remains , types );

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E7201E441A5CC4B000839B89 /* test.ki in CopyFiles */ = {isa = PBXBuildFile; fileRef = E7201E431A5CBE7600839B89 /* test.ki */; };
 		E7C55DC71A5299F500251A13 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E7C55DC61A5299F500251A13 /* main.cpp */; };
 		E7EDDD671A529A6600F2A513 /* ki.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E7EDDD621A529A6600F2A513 /* ki.cpp */; };
 		E7EDDD681A529A6600F2A513 /* lang.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E7EDDD641A529A6600F2A513 /* lang.cpp */; };
@@ -16,16 +17,18 @@
 /* Begin PBXCopyFilesBuildPhase section */
 		E7C55DC11A5299F500251A13 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 16;
 			files = (
+				E7201E441A5CC4B000839B89 /* test.ki in CopyFiles */,
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E7201E431A5CBE7600839B89 /* test.ki */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = test.ki; sourceTree = "<group>"; };
 		E7C55DC31A5299F500251A13 /* Ki */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Ki; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7C55DC61A5299F500251A13 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		E7EDDD611A529A6600F2A513 /* ki */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = ki; sourceTree = "<group>"; };
@@ -68,6 +71,7 @@
 			children = (
 				E7EDDD601A529A6600F2A513 /* ki */,
 				E7C55DC61A5299F500251A13 /* main.cpp */,
+				E7201E431A5CBE7600839B89 /* test.ki */,
 			);
 			path = Ki;
 			sourceTree = "<group>";
