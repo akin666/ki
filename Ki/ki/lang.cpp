@@ -40,6 +40,7 @@ namespace ki
                 { "|" , KI_BOR },
                 { "&" , KI_BAND },
                 { "\\" ,KI_SPECIAL },
+                { "." , KI_MEMBER },
             }
         },
         {
@@ -139,6 +140,7 @@ namespace ki
         { KI_BOR ,          "|" },
         { KI_BAND ,         "&" },
         { KI_SPECIAL ,      "\\"},
+        { KI_MEMBER ,       "." },
         
         // 2
         { KI_EQUALS ,       "==" },

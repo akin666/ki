@@ -125,6 +125,8 @@ namespace ki
                     case '&' : token.code = KI_BOR;         break;
                     case '\\': token.code = KI_SPECIAL;     break;
                         
+                    case '.': token.code = KI_MEMBER;       break;
+                        
                     case '/' :
                     {
                         // is it a comment.. or divide, or other someting special

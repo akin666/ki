@@ -35,6 +35,7 @@ namespace ki
         KI_QUOTATION,   // ",',
 		
 		KI_LIBRARY,		// "library"
+        KI_MEMBER,      // myVar.doThing(); <-- '.'
 		KI_VAR,			// "var"
 		KI_FUNCTION,	// "function"
 		KI_INFUNCTION,	// "&function" // inline function? takes all variables as references.

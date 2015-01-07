@@ -66,12 +66,6 @@ bool load( std::string path , std::string& content )
     return false;
 }
 
-// print(text:"Hello world");
-// moveTo(x=140,y=200);
-// moveTo(x:140 y:200);
-// function moveTo( var x , var y );
-// function moveTo( var x[type:number] , var y[type:number] );
-
 int main(int argc, const char * argv[])
 {
     // insert code here...
@@ -89,23 +83,6 @@ int main(int argc, const char * argv[])
     return 0;
 }
 
-/*
-print(text:"Hello World");                          // internal or external print function call
-function doStuff( var text , var other )            // introduce function
-{
-    var cppObject = new CPPObject( text: text );    // create c++ object
-    cppObject.doSomething( text:other );            // call c++ function
-    cppObject.setPosition(x:10 , y:20);             // call c++ function
-    scene.add(object:cppObject);                    // call c++ function, add object to scene
-}
-
-// we want to introduce custom behavior to objects, through scripting
-// to replace the "brains" of entities..
-// functions should be assignable to variables..
- make mockup use of the language, explore all avenues, USE IT. Create realistic use cases
- and make the codes ase "tests".. after that, implement the language.
-
-*/
 
 
 
