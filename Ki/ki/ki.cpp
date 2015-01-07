@@ -94,7 +94,7 @@ namespace ki
                 
                 continue;
             }
-            
+            /*
             switch (token.code) {
                 case KI_STRING :
                 case KI_FRAGMENT :
@@ -104,6 +104,7 @@ namespace ki
                     std::cout << ::ki::toString(token.code) << std::endl;
                     break;
             }
+            */
         }
     }
 }

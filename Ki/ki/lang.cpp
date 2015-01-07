@@ -52,6 +52,8 @@ namespace ki
                 { "||" , KI_OR },
                 { "&&" , KI_AND },
                 
+                { "or" , KI_OR },
+                
                 { "if" , KI_IF },
             }
         },
@@ -62,6 +64,8 @@ namespace ki
                 { "new" , KI_NEW },
                 { "for" , KI_FOR },
                 { "NOP" , KI_NOP },
+                
+                { "and" , KI_AND },
             }
         },
         {

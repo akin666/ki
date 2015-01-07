@@ -23,6 +23,14 @@ off(player.forward)
     player.walk(false);
 }
 
+I want to move the objects, easily, I want to get the specific object from the scene, and move it
+
+var ok = 1.0;
+[base, translation].where(base.Name == "pallo").all()
+{
+    translation.move( ok , 0.0 , 0.0 );
+}
+
 /*
  print(text:"Hello World");                          // internal or external print function call
  function doStuff( var text , var other )            // introduce function
