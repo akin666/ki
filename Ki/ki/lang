@@ -127,6 +127,24 @@ namespace ki
         virtual ~FuncInterface() {};
         virtual void operator()( const Parameters& args ) {};
     };
+    
+    class Scope
+    {
+    private:
+        Scope *parent;
+        
+        StringArray strings;
+        NumberArray numbers;
+        BoolArray booleans;
+    public:
+        Scope( Scope *parent = nullptr )
+        : parent( parent )
+        {
+            
+        }
+        
+        
+    };
 };
 
 #endif // guard end
